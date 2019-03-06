@@ -2,7 +2,7 @@
 Scrape data from the site and constantly upload the data to mysql database
 
 ## requirements
-pymysql, requests, lxml, python3.6
+pymysql, requests, lxml, apscheduler, python3.6
 
 ## How to run
 1. Install mysql server
