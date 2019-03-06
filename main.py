@@ -2,6 +2,7 @@ import requests
 from lxml import html
 import pymysql.cursors
 import time
+from apscheduler.schedulers.blocking import BlockingScheduler
 
 def store_on_mysql_database(scraped_data):
     print('stroing on mysql databse...')
@@ -80,3 +81,7 @@ def start_scraping():
 
 if (__name__ == '__main__'):
     start_scraping()
+
+    scheduler = BlockingScheduler()
+    scheduler.add_job(start_scraping, 'interval', minutes=1)
+    scheduler.start()
