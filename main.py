@@ -11,10 +11,10 @@ def start_scraping():
     page = html.fromstring(response.text)
 
     # NOTE: Extract data from fetched page
+    rowsData = page.xpath('//table[@id="topOrdersTable"]/tbody//tr')
 
-    tableData = page.xpath('//table[@id="topOrdersTable"]/tbody//tr')
-
-    for row in tableData:
+    scraped_data = []
+    for row in rowsData:
         rank = row.xpath('.//td[@class="first"]/text()')[0]
         symbol =  row.xpath('.//td[@class="second"]/span/@fmr-param-symbol')[0]
         company = row.xpath('.//td[@class="third"]/text()')[0]
@@ -23,7 +23,13 @@ def start_scraping():
         sellOrder = row.xpath('.//td[@class="seventh"]/text()')[0]
         news = row.xpath('.//td[contains(@class, "eight")]/span/a/@href')[0]
 
-        print (rank, symbol, company, priceChange, buyOrder, sellOrder, base_url+news)
+        scraped_data.append((
+            rank, symbol, company, priceChange, buyOrder, sellOrder, base_url+news
+        ))
+
+    for row in scraped_data:
+       rank, symbol, company, priceChange, buyOrder, sellOrder, news = row
+       print(rank, symbol, company, priceChange, buyOrder, sellOrder, news)
 
 if (__name__ == '__main__'):
     start_scraping()
